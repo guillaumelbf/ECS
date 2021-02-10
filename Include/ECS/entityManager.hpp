@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <queue>
 #include <array>
 
@@ -13,16 +14,62 @@ private:
 
     uint32_t livingEntityCount {};
 public:
-    EntityManager();
+    EntityManager()
+    {
+        for (Entity entity = 0 ; entity < MAX_ENTITIES ; entity++)
+            availableEntities.push(entity);
+    }
 
-    Entity CreateEntity();
+    Entity CreateEntity()
+    {
+        //max entity guard
+        if(livingEntityCount > MAX_ENTITIES)
+        {
+            std::cerr << "Error : Cannot create more entity (Max entities reach) : " << MAX_ENTITIES << std::endl;
+            return 0;
+        }
 
-    void DestroyEntity(Entity _entity);
+        Entity id = availableEntities.front();
+        availableEntities.pop();
+        livingEntityCount++;
 
-    void SetSignature(Entity _entity, Signature _signature);
+        return id;
+    }
 
-    Signature GetSignature(Entity _entity);
+    void DestroyEntity(Entity _entity)
+    {
+        if(_entity > MAX_ENTITIES)
+        {
+            std::cerr << "Error : Cannot delete entity (Entity out of range) " << std::endl;
+            return;
+        }
+
+        signatures[_entity].reset();
+
+        availableEntities.push(_entity);
+        livingEntityCount--;
+    }
+
+    void SetSignature(Entity _entity, Signature _signature)
+    {
+        if(_entity > MAX_ENTITIES)
+        {
+            std::cerr << "Error : Cannot set signature (Entity out of range) " << std::endl;
+            return;
+        }
+
+        signatures[_entity] = _signature;
+    }
+
+    Signature GetSignature(Entity _entity)
+    {
+        if(_entity > MAX_ENTITIES)
+        {
+            std::cerr << "Error : Cannot get signature (Entity out of range) " << std::endl;
+            return 0;
+        }
+
+        return signatures[_entity];
+    }
 };
-
-#include "entityManager.inl"
 
