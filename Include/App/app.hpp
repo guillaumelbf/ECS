@@ -6,12 +6,14 @@
 #include "ECS/ecsManager.hpp"
 #include "Systems/physicsSystem.hpp"
 #include "Systems/renderSystem.hpp"
+#include "App/fps.hpp"
 
 class App
 {
 private:
     Window window;
 
+    Fps fps;
     ECSManager ecsManager;
 
     std::shared_ptr<PhysicsSystem> physicsSystem;

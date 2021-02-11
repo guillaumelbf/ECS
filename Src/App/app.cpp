@@ -122,6 +122,10 @@ void App::Loop()
 
         glfwSwapBuffers(window.GetHandle());
 
+        fps.update();
+
+        glfwSetWindowTitle(window.GetHandle(),std::string("ECS - " + std::to_string(fps.get()) + "fps").c_str());
+
         float currTime = glfwGetTime();
         deltaTime =  currTime - lastTime;
         lastTime = currTime;
