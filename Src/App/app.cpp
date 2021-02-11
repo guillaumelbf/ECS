@@ -25,6 +25,10 @@ void App::InitOpenGL()
     if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
         throw std::runtime_error("Failed to load glad !");
 
+    printf("GL_VENDOR = %s\n",   glGetString(GL_VENDOR));
+    printf("GL_RENDERER = %s\n", glGetString(GL_RENDERER));
+    printf("GL_VERSION = %s\n",  glGetString(GL_VERSION));
+
     if (GLAD_GL_KHR_debug)
     {
         glEnable(GL_DEBUG_OUTPUT);
@@ -33,6 +37,8 @@ void App::InitOpenGL()
         glDebugMessageControl(GL_DONT_CARE, GL_DEBUG_TYPE_PERFORMANCE, GL_DONT_CARE, 0, nullptr, GL_FALSE);
         glDebugMessageControl(GL_DONT_CARE, GL_DEBUG_TYPE_OTHER, GL_DONT_CARE, 0, nullptr, GL_FALSE);
     }
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 void App::InitECS()
@@ -77,28 +83,28 @@ void App::Loop()
     std::uniform_real_distribution<float> randColor(0.0f, 1.0f);
 
     // Init demo scene
-    for (size_t i = 0; i < 500 ; ++i)
+    for (size_t i = 0; i < MAX_ENTITIES -1 ; ++i)
     {
         Entity entity = ecsManager.CreateEntity();
 
         ecsManager.AddComponent(entity,Gravity{
-            {0.f,0.f,0.f}
+            .force{0.f,0.f,0.f}
         });
 
         ecsManager.AddComponent(entity,
                                 Rigidbody{
-            {0.f,0.f,0.f},
-            {0.f,0.f,0.f}
+            .velocity{0.f,0.f,0.f},
+            .acceleration{0.f,0.f,0.f}
         });
 
         ecsManager.AddComponent(entity,Transform{
-                {randPosition(generator),randPosition(generator),randPosition(generator)},
-                {randRotation(generator),randRotation(generator),randRotation(generator)},
-                {randScale(generator),randScale(generator),randScale(generator)}
+                .position{randPosition(generator),randPosition(generator)+200,randPosition(generator)},
+                .rotation{randRotation(generator),randRotation(generator),randRotation(generator)},
+                .scale{randScale(generator),randScale(generator),randScale(generator)}
         });
 
         ecsManager.AddComponent(entity,MeshRenderer{
-                {randColor(generator),randColor(generator),randColor(generator)}
+                .color{randColor(generator),randColor(generator),randColor(generator)}
         });
     }
 

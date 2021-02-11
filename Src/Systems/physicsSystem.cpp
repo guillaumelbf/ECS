@@ -17,6 +17,6 @@ void PhysicsSystem::Update(float _deltaTime,ECSManager& _ecsManager)
         auto& transform = _ecsManager.GetComponent<Transform>(entity);
         auto const&  gravity   = _ecsManager.GetComponent<Gravity>(entity);
 
-        transform.position.y -= 100 * _deltaTime;
+        transform.position.y -= 20 * _deltaTime;
     }
 }

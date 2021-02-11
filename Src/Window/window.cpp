@@ -26,6 +26,7 @@ void Window::CreateWindow(const char* _title, Int2 _size)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_DOUBLEBUFFER,GL_TRUE);
 
     window = glfwCreateWindow(_size.x,_size.y,_title, nullptr, nullptr);
 

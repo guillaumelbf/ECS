@@ -1,5 +1,14 @@
 #pragma once
 
+#ifndef M_PI
+#define M_PI 3.14159265359
+#endif
+
+constexpr float DegToRad(float _deg)
+{
+    return _deg / 180 * M_PI;
+}
+
 struct Int2
 {
     int x; int y;
@@ -77,6 +86,3 @@ struct Mat4
                 (rhs.x * m[3][0]) + (rhs.y * m[3][1]) + (rhs.z * m[3][2]) + (rhs.w * m[3][3]));
     }*/
 };
-
-
-

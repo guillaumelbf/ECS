@@ -21,7 +21,7 @@ public:
     {
         if constexpr (std::is_same_v<T, Mat4>)
         {
-            glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_TRUE, (GLfloat*)value.e);
+            glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, (GLfloat*)value.e);
         }
         else if constexpr (std::is_same_v<T, Float3>)
         {

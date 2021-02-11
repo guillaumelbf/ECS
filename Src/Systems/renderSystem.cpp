@@ -28,7 +28,7 @@ void RenderSystem::Init(ECSManager& _ecsManager)
         void main()
         {
             fragPosWorld = vec3(uModel * vec4(inPos, 1.0));
-            normal = vec3(uModel * vec4(inNormal, 0.0));
+            normal = mat3(uModel) * inNormal;
 
             gl_Position = uProjection * uView * uModel * vec4(inPos, 1.0f);
         }
@@ -71,11 +71,11 @@ void RenderSystem::Init(ECSManager& _ecsManager)
     camera = _ecsManager.CreateEntity();
 
     _ecsManager.AddComponent(camera,Transform{
-            {0.f,0.f,500.f}
+            {0.f,0.f,150.f}
     });
 
     _ecsManager.AddComponent(camera, Camera
-            {Camera::MakeProjectionTransform(45.0f,0.1f,1000.0f,1280,720)}
+            {Camera::MakeProjectionTransform(DegToRad(45.0f),0.01f,1000.0f,1280,720)}
     );
 
     std::vector<Float3> vertices =
