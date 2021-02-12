@@ -22,13 +22,15 @@ private:
     {
         const char* typeName = typeid(T).name();
 
-        if(componentTypes.find(typeName) == componentTypes.end())
+        try
+        {
+            return std::static_pointer_cast<ComponentArray<T>>(componentArrays.at(typeName));
+        }
+        catch (const std::exception& e)
         {
             std::cerr << "Error : Cannot get component array (Component not registered)" << std::endl;
             return nullptr;
         }
-
-        return std::static_pointer_cast<ComponentArray<T>>(componentArrays[typeName]);
     }
 
 public:

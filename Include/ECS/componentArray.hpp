@@ -68,13 +68,15 @@ public:
 
     T& GetData(Entity _entity)
     {
-        if(entityToIndexMap.find(_entity) == entityToIndexMap.end())
+        try
+        {
+            return componentArray.at(entityToIndexMap.at(_entity));
+        }
+        catch (const std::exception& e)
         {
             std::cerr << "Error : Cannot get component (Component doesn't exist)" << std::endl;
             abort();
         }
-
-        return componentArray[entityToIndexMap[_entity]];
     }
 
     void EntityDestroyed(Entity _entity) final
